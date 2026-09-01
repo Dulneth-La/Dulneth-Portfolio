@@ -1,0 +1,54 @@
+{% extends 'dashboard/base.html' %}
+
+{% block dash_title %}Blog Posts{% endblock %}
+{% block dash_heading %}Blog Posts{% endblock %}
+
+{% block dash_content %}
+
+<div class="dash-section-header">
+    <p class="dash-count">{{ posts|length }} post{{ posts|length|pluralize }}</p>
+    <a href="{% url 'dashboard_blog_create' %}" class="dash-btn dash-btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Post
+    </a>
+</div>
+
+{% if posts %}
+<div class="dash-table-wrap">
+    <table class="dash-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Difficulty</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.title }}</td>
+                <td><span class="blog-category blog-category-{{ post.category|lower }}">{{ post.category }}</span></td>
+                <td>
+                    {% if post.difficulty %}
+                        <span class="blog-difficulty blog-diff-{{ post.difficulty|lower }}">{{ post.difficulty }}</span>
+                    {% else %}
+                        <span class="dash-td-muted">—</span>
+                    {% endif %}
+                </td>
+                <td class="dash-td-muted">{{ post.date_published|date:"M d, Y" }}</td>
+                <td class="dash-actions">
+                    <a href="{% url 'dashboard_blog_edit' post.pk %}" class="dash-link">Edit</a>
+                    <a href="{% url 'dashboard_blog_delete' post.pk %}" class="dash-link dash-link-red">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p class="dash-empty">No blog posts yet. <a href="{% url 'dashboard_blog_create' %}">Create your first post</a></p>
+{% endif %}
+
+{% endblock %}

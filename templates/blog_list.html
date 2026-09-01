@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Blog | Dulneth Lahiru
+{% endblock %}
+
+{% block content %}
+
+<section class="section-page">
+
+    <p class="section-label">BLOG</p>
+
+    <h1>Writeups & Lab Notes</h1>
+
+    <p>
+        CTF walkthroughs, lab exercises, and security research notes.
+    </p>
+
+    <div class="blog-filters">
+        <a href="/blog/" class="blog-filter {% if not current_category %}active{% endif %}">All</a>
+        <a href="/blog/?category=CTF" class="blog-filter {% if current_category == 'CTF' %}active{% endif %}">CTF</a>
+        <a href="/blog/?category=Lab" class="blog-filter {% if current_category == 'Lab' %}active{% endif %}">Labs</a>
+        <a href="/blog/?category=General" class="blog-filter {% if current_category == 'General' %}active{% endif %}">General</a>
+    </div>
+
+    <div class="blog-grid">
+
+        {% for post in posts %}
+
+        <a href="{% url 'blog_post' post.slug %}" class="blog-card">
+            <div class="blog-card-top">
+                <span class="blog-category blog-category-{{ post.category|lower }}">{{ post.category }}</span>
+                {% if post.difficulty %}
+                    <span class="blog-difficulty blog-diff-{{ post.difficulty|lower }}">{{ post.difficulty }}</span>
+                {% endif %}
+            </div>
+            <h3 class="blog-card-title">{{ post.title }}</h3>
+            <p class="blog-card-summary">{{ post.summary }}</p>
+            <div class="blog-card-date">{{ post.date_published|date:"M d, Y" }}</div>
+        </a>
+
+        {% empty %}
+
+        <p class="no-projects">No posts yet. Check back soon.</p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

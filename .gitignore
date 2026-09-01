@@ -1,0 +1,13 @@
+# Python
+*.pyc
+__pycache__/
+venv/
+
+# Environment variables (SECRETS)
+.env
+
+# Database
+db.sqlite3
+
+# Django
+*.log

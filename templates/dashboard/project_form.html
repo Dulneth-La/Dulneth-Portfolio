@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}
+
+{% block dash_title %}{{ action }} Project{% endblock %}
+{% block dash_heading %}{{ action }} Project{% endblock %}
+
+{% block dash_content %}
+
+<div class="dash-form-card">
+    <form method="POST" class="dash-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="dash-field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <span class="dash-field-error">{{ field.errors.0 }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="dash-form-actions">
+            <a href="{% url 'dashboard_project_list' %}" class="dash-btn dash-btn-ghost">Cancel</a>
+            <button type="submit" class="dash-btn dash-btn-primary">{{ action }} Project</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

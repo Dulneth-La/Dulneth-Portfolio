@@ -1,0 +1,52 @@
+{% extends 'dashboard/base.html' %}
+
+{% block dash_title %}Projects{% endblock %}
+{% block dash_heading %}Projects{% endblock %}
+
+{% block dash_content %}
+
+<div class="dash-section-header">
+    <p class="dash-count">{{ projects|length }} project{{ projects|length|pluralize }}</p>
+    <a href="{% url 'dashboard_project_create' %}" class="dash-btn dash-btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Project
+    </a>
+</div>
+
+{% if projects %}
+<div class="dash-table-wrap">
+    <table class="dash-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Technologies</th>
+                <th>Featured</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+                <td>{{ project.title }}</td>
+                <td class="dash-td-muted">{{ project.technologies|truncatewords:5 }}</td>
+                <td>
+                    {% if project.featured %}
+                        <span class="dash-badge dash-badge-green">Yes</span>
+                    {% else %}
+                        <span class="dash-badge dash-badge-gray">No</span>
+                    {% endif %}
+                </td>
+                <td class="dash-actions">
+                    <a href="{% url 'dashboard_project_edit' project.pk %}" class="dash-link">Edit</a>
+                    <a href="{% url 'dashboard_project_delete' project.pk %}" class="dash-link dash-link-red">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p class="dash-empty">No projects yet. <a href="{% url 'dashboard_project_create' %}">Create your first project</a></p>
+{% endif %}
+
+{% endblock %}

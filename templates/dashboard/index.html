@@ -1,0 +1,64 @@
+{% extends 'dashboard/base.html' %}
+
+{% block dash_title %}Overview{% endblock %}
+{% block dash_heading %}Overview{% endblock %}
+
+{% block dash_content %}
+
+<div class="dash-stats">
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon dash-stat-blue">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+            <p class="dash-stat-number">{{ project_count }}</p>
+            <p class="dash-stat-label">Projects</p>
+        </div>
+    </div>
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon dash-stat-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+            <p class="dash-stat-number">{{ blog_count }}</p>
+            <p class="dash-stat-label">Blog Posts</p>
+        </div>
+    </div>
+</div>
+
+<div class="dash-section">
+    <div class="dash-section-header">
+        <h3>Recent Blog Posts</h3>
+        <a href="{% url 'dashboard_blog_list' %}" class="dash-link">View all</a>
+    </div>
+
+    {% if recent_posts %}
+    <div class="dash-table-wrap">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in recent_posts %}
+                <tr>
+                    <td>{{ post.title }}</td>
+                    <td><span class="blog-category blog-category-{{ post.category|lower }}">{{ post.category }}</span></td>
+                    <td>{{ post.date_published|date:"M d, Y" }}</td>
+                    <td><a href="{% url 'dashboard_blog_edit' post.pk %}" class="dash-link">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="dash-empty">No blog posts yet. <a href="{% url 'dashboard_blog_create' %}">Create your first post</a></p>
+    {% endif %}
+</div>
+
+{% endblock %}
