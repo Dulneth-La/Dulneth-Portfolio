@@ -40,7 +40,7 @@ def blog_list(request):
 
 def blog_post(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
-    md = markdown.Markdown(extensions=['fenced_code', 'codehilite', 'tables', 'nl2br'])
+    md = markdown.Markdown(extensions=['fenced_code', 'codehilite', 'tables', 'sane_lists'])
     post_html = md.convert(post.content)
     return render(request, 'blog_post.html', {
         'post': post,

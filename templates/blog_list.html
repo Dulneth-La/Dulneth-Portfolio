@@ -8,13 +8,11 @@ Blog | Dulneth Lahiru
 
 <section class="section-page">
 
-    <p class="section-label">BLOG</p>
-
-    <h1>Writeups & Lab Notes</h1>
-
-    <p>
-        CTF walkthroughs, lab exercises, and security research notes.
-    </p>
+    <div class="blog-page-header">
+        <p class="section-label">BLOG</p>
+        <h1>Writeups & Lab Notes</h1>
+        <p>CTF walkthroughs, lab exercises, and security research notes.</p>
+    </div>
 
     <div class="blog-filters">
         <a href="/blog/" class="blog-filter {% if not current_category %}active{% endif %}">All</a>
@@ -36,7 +34,12 @@ Blog | Dulneth Lahiru
             </div>
             <h3 class="blog-card-title">{{ post.title }}</h3>
             <p class="blog-card-summary">{{ post.summary }}</p>
-            <div class="blog-card-date">{{ post.date_published|date:"M d, Y" }}</div>
+            <div class="blog-card-footer">
+                <span class="blog-card-date">{{ post.date_published|date:"M d, Y" }}</span>
+                <span class="blog-card-arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+            </div>
         </a>
 
         {% empty %}

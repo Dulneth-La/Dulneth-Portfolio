@@ -25,10 +25,58 @@
         <h1 class="blog-article-title">{{ post.title }}</h1>
     </div>
 
-    <div class="blog-article-content">
+    <div class="blog-article-content" id="blog-content">
         {{ content_html }}
     </div>
 
 </article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const content = document.getElementById('blog-content');
+    if (!content) return;
+
+    const h2s = content.querySelectorAll('h2');
+    if (h2s.length === 0) return;
+
+    content.classList.add('has-steps');
+
+    let stepNum = 0;
+    h2s.forEach(function(h2) {
+        stepNum++;
+        var section = document.createElement('div');
+        section.className = 'step-section' + (stepNum === 1 ? ' open' : '');
+
+        var header = document.createElement('div');
+        header.className = 'step-header';
+        header.innerHTML =
+            '<span class="step-number">' + stepNum + '</span>' +
+            '<span class="step-title">' + h2.textContent + '</span>' +
+            '<span class="step-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>';
+
+        var body = document.createElement('div');
+        body.className = 'step-body';
+        var bodyInner = document.createElement('div');
+        bodyInner.className = 'step-body-inner';
+
+        var sibling = h2.nextElementSibling;
+        while (sibling && sibling.tagName !== 'H2') {
+            var next = sibling.nextElementSibling;
+            bodyInner.appendChild(sibling);
+            sibling = next;
+        }
+
+        h2.remove();
+        body.appendChild(bodyInner);
+        section.appendChild(header);
+        section.appendChild(body);
+        content.appendChild(section);
+
+        header.addEventListener('click', function() {
+            section.classList.toggle('open');
+        });
+    });
+});
+</script>
 
 {% endblock %}
